@@ -1,0 +1,22 @@
+{
+  "title": "九牧智联桥",
+  "config": {
+    "step": {
+      "user": {
+        "title": "添加九牧蓝牙马桶",
+        "description": "选择准确型号并填写蓝牙 MAC 地址（广播名通常以 JOMOO_SMART_ 开头）。首次连接仅读取状态，不执行机械动作。",
+        "data": {
+          "model": "马桶型号",
+          "address": "蓝牙 MAC 地址",
+          "name": "设备名称（可选）"
+        }
+      }
+    },
+    "error": {
+      "invalid_address": "请输入六组十六进制蓝牙地址，例如 AA:BB:CC:DD:EE:FF"
+    },
+    "abort": {
+      "already_configured": "此蓝牙地址已经添加"
+    }
+  }
+}

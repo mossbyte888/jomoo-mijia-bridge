@@ -1,0 +1,364 @@
+{
+  "id": "jomoo_virtual_event_router",
+  "alias": "九牧智联桥：米家虚拟事件",
+  "description": "只接收事件表中的名称；忽略恢复的历史状态与过期事件。",
+  "triggers": [
+    {
+      "trigger": "state",
+      "entity_id": "event.example_gateway_virtual_event"
+    }
+  ],
+  "variables": {
+    "routes": {
+      "jomoo_sq9650_night_light_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_night_light"
+      },
+      "jomoo_sq9650_night_light_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_night_light"
+      },
+      "jomoo_sq9650_light_sensor_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_light_sensor"
+      },
+      "jomoo_sq9650_light_sensor_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_light_sensor"
+      },
+      "jomoo_sq9650_auto_flush_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_flush"
+      },
+      "jomoo_sq9650_auto_flush_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_flush"
+      },
+      "jomoo_sq9650_auto_close_flush_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_close_flush"
+      },
+      "jomoo_sq9650_auto_close_flush_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_close_flush"
+      },
+      "jomoo_sq9650_foot_sensor_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_foot_sensor"
+      },
+      "jomoo_sq9650_foot_sensor_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_foot_sensor"
+      },
+      "jomoo_sq9650_prewetting_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_prewetting"
+      },
+      "jomoo_sq9650_prewetting_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_prewetting"
+      },
+      "jomoo_sq9650_auto_bubble_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_bubble"
+      },
+      "jomoo_sq9650_auto_bubble_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_auto_bubble"
+      },
+      "jomoo_sq9650_bluetooth_release_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_bluetooth_release"
+      },
+      "jomoo_sq9650_bluetooth_release_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_bluetooth_release"
+      },
+      "jomoo_sq9650_seat_temp_level_0": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
+        "option": "常温"
+      },
+      "jomoo_sq9650_seat_temp_level_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
+        "option": "中温"
+      },
+      "jomoo_sq9650_seat_temp_level_5": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
+        "option": "高温"
+      },
+      "jomoo_zs800j_light_sensor_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_light_sensor"
+      },
+      "jomoo_zs800j_light_sensor_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_light_sensor"
+      },
+      "jomoo_zs800j_atmosphere_light_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_atmosphere_light"
+      },
+      "jomoo_zs800j_atmosphere_light_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_atmosphere_light"
+      },
+      "jomoo_zs800j_auto_flush_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_flush"
+      },
+      "jomoo_zs800j_auto_flush_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_flush"
+      },
+      "jomoo_zs800j_auto_close_flush_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_close_flush"
+      },
+      "jomoo_zs800j_auto_close_flush_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_close_flush"
+      },
+      "jomoo_zs800j_auto_cover_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_cover"
+      },
+      "jomoo_zs800j_auto_cover_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_cover"
+      },
+      "jomoo_zs800j_auto_small_flush_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_small_flush"
+      },
+      "jomoo_zs800j_auto_small_flush_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_small_flush"
+      },
+      "jomoo_zs800j_foot_sensor_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_foot_sensor"
+      },
+      "jomoo_zs800j_foot_sensor_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_foot_sensor"
+      },
+      "jomoo_zs800j_uv_water_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_uv_water"
+      },
+      "jomoo_zs800j_uv_water_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_uv_water"
+      },
+      "jomoo_zs800j_prewetting_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_prewetting"
+      },
+      "jomoo_zs800j_prewetting_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_prewetting"
+      },
+      "jomoo_zs800j_auto_bubble_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_bubble"
+      },
+      "jomoo_zs800j_auto_bubble_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_bubble"
+      },
+      "jomoo_zs800j_auto_temp_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_temp"
+      },
+      "jomoo_zs800j_auto_temp_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_auto_temp"
+      },
+      "jomoo_zs800j_bluetooth_release_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release"
+      },
+      "jomoo_zs800j_bluetooth_release_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release"
+      },
+      "jomoo_zs800j_seat_temp_level_0": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "常温"
+      },
+      "jomoo_zs800j_seat_temp_level_1": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "最低"
+      },
+      "jomoo_zs800j_seat_temp_level_2": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "偏低"
+      },
+      "jomoo_zs800j_seat_temp_level_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "标准"
+      },
+      "jomoo_zs800j_seat_temp_level_4": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "偏高"
+      },
+      "jomoo_zs800j_seat_temp_level_5": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+        "option": "最高"
+      },
+      "jomoo_zs800j_water_temp_level_0": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "常温"
+      },
+      "jomoo_zs800j_water_temp_level_1": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "最低"
+      },
+      "jomoo_zs800j_water_temp_level_2": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "偏低"
+      },
+      "jomoo_zs800j_water_temp_level_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "标准"
+      },
+      "jomoo_zs800j_water_temp_level_4": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "偏高"
+      },
+      "jomoo_zs800j_water_temp_level_5": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+        "option": "最高"
+      },
+      "jomoo_zs800j_air_temp_0": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+        "option": "常温"
+      },
+      "jomoo_zs800j_air_temp_1": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+        "option": "偏低"
+      },
+      "jomoo_zs800j_air_temp_2": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+        "option": "标准"
+      },
+      "jomoo_zs800j_air_temp_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+        "option": "偏高"
+      },
+      "jomoo_zs800j_air_temp_4": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+        "option": "最高"
+      },
+      "jomoo_zs800j_wind_speed_1": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+        "option": "1档"
+      },
+      "jomoo_zs800j_wind_speed_2": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+        "option": "2档"
+      },
+      "jomoo_zs800j_wind_speed_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+        "option": "3档"
+      },
+      "jomoo_zs800j_wind_speed_4": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+        "option": "4档"
+      },
+      "jomoo_zs800j_wind_speed_5": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+        "option": "5档"
+      },
+      "jomoo_zs800j_cover_sensitivity_0": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_cover_sensitivity",
+        "option": "短距档"
+      },
+      "jomoo_zs800j_cover_sensitivity_1": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_cover_sensitivity",
+        "option": "灵敏档"
+      },
+      "jomoo_zs800j_foam_time_3": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
+        "option": "快速档"
+      },
+      "jomoo_zs800j_foam_time_6": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
+        "option": "中速档"
+      },
+      "jomoo_zs800j_foam_time_9": {
+        "action": "select.select_option",
+        "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
+        "option": "标准档"
+      }
+    },
+    "event_name": "{{ trigger.to_state.attributes.get('事件名称', '') if trigger.to_state is not none else '' }}",
+    "route": "{{ routes.get(event_name, {}) }}"
+  },
+  "conditions": [
+    {
+      "condition": "template",
+      "value_template": "{{ trigger.from_state is not none and trigger.from_state.state not in ['unknown', 'unavailable'] and trigger.to_state is not none and trigger.to_state.state != trigger.from_state.state and event_name in routes and as_datetime(trigger.to_state.state, none) is not none and 0 <= (as_timestamp(now()) - as_timestamp(trigger.to_state.state, 0)) < 30 }}"
+    }
+  ],
+  "actions": [
+    {
+      "choose": [
+        {
+          "conditions": "{{ route.action == 'select.select_option' }}",
+          "sequence": [
+            {
+              "action": "select.select_option",
+              "target": {
+                "entity_id": "{{ route.entity }}"
+              },
+              "data": {
+                "option": "{{ route.option }}"
+              }
+            }
+          ]
+        }
+      ],
+      "default": [
+        {
+          "action": "{{ route.action }}",
+          "target": {
+            "entity_id": "{{ route.entity }}"
+          }
+        }
+      ]
+    }
+  ],
+  "mode": "parallel",
+  "max": 20,
+  "max_exceeded": "warning"
+}

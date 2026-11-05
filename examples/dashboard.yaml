@@ -1,0 +1,267 @@
+{
+  "title": "九牧智联桥",
+  "views": [
+    {
+      "title": "设置",
+      "path": "settings",
+      "icon": "mdi:toilet",
+      "cards": [
+        {
+          "type": "entities",
+          "title": "SQ9650 · sq9650",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "sensor.jomoo_sq9650_aabbccddee01_work_state",
+              "name": "工作状态"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_night_light",
+              "name": "夜灯"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_light_sensor",
+              "name": "光感夜灯"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_bluetooth_release",
+              "name": "释放蓝牙给小程序"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
+              "name": "座温"
+            }
+          ]
+        },
+        {
+          "type": "entities",
+          "title": "ZS800J · zs800j",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "sensor.jomoo_zs800j_aabbccddee02_work_state",
+              "name": "工作状态"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_light_sensor",
+              "name": "智能夜灯"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_atmosphere_light",
+              "name": "氛围灯"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_cover",
+              "name": "自动翻盖"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_small_flush",
+              "name": "自动小冲"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_uv_water",
+              "name": "水路UV杀菌"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_auto_temp",
+              "name": "四季温感"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release",
+              "name": "释放蓝牙给小程序"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
+              "name": "座温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_water_temp_level",
+              "name": "水温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_air_temp",
+              "name": "风温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_wind_speed",
+              "name": "风速"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_cover_sensitivity",
+              "name": "翻盖模式"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
+              "name": "刷圈发泡"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "操作",
+      "path": "actions",
+      "icon": "mdi:gesture-tap",
+      "cards": [
+        {
+          "type": "markdown",
+          "content": "操作按钮会立即执行机械动作。请先确认设备空闲；超时后查看现场，不要连续重试。"
+        },
+        {
+          "type": "entities",
+          "title": "SQ9650 · sq9650",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "sensor.jomoo_sq9650_aabbccddee01_cover_open",
+              "name": "盖板状态"
+            },
+            {
+              "entity": "sensor.jomoo_sq9650_aabbccddee01_ring_open",
+              "name": "座圈状态"
+            },
+            {
+              "entity": "sensor.jomoo_sq9650_aabbccddee01_seated",
+              "name": "着座状态"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_open_cover",
+              "name": "开盖"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_close_cover",
+              "name": "关盖"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_open_ring",
+              "name": "翻起座圈"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_close_ring",
+              "name": "放下座圈"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_flush_large",
+              "name": "大冲"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_flush_small",
+              "name": "小冲"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_bubble",
+              "name": "魔力泡"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_hibernate",
+              "name": "待机"
+            }
+          ]
+        },
+        {
+          "type": "entities",
+          "title": "ZS800J · zs800j",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "sensor.jomoo_zs800j_aabbccddee02_cover_open",
+              "name": "盖板状态"
+            },
+            {
+              "entity": "sensor.jomoo_zs800j_aabbccddee02_ring_open",
+              "name": "座圈状态"
+            },
+            {
+              "entity": "sensor.jomoo_zs800j_aabbccddee02_seated",
+              "name": "着座状态"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_open_cover",
+              "name": "开盖"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_close_cover",
+              "name": "关盖"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_open_ring",
+              "name": "翻起座圈"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_close_ring",
+              "name": "放下座圈"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_flush_large",
+              "name": "大冲"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_flush_small",
+              "name": "小冲"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_bubble",
+              "name": "魔力泡"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_self_clean",
+              "name": "自清洁模式"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_nozzle_clean",
+              "name": "喷嘴清洁"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_replace_nozzle",
+              "name": "更换喷嘴"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_stop_clean",
+              "name": "停止清洁／维护"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

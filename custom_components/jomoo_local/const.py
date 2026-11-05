@@ -1,0 +1,1 @@
+DOMAIN = "jomoo_local"

@@ -1,0 +1,15 @@
+{
+  "domain": "jomoo_local",
+  "name": "九牧智联桥",
+  "version": "0.5.0",
+  "config_flow": true,
+  "dependencies": [
+    "bluetooth"
+  ],
+  "codeowners": [
+    "@mossbyte888"
+  ],
+  "iot_class": "local_polling",
+  "documentation": "https://github.com/mossbyte888/jomoo-mijia-bridge",
+  "issue_tracker": "https://github.com/mossbyte888/jomoo-mijia-bridge/issues"
+}
