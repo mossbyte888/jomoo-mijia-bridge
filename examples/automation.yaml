@@ -74,6 +74,14 @@
         "action": "switch.turn_off",
         "entity": "switch.jomoo_sq9650_aabbccddee01_bluetooth_release"
       },
+      "jomoo_sq9650_persistent_connection_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_persistent_connection"
+      },
+      "jomoo_sq9650_persistent_connection_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_sq9650_aabbccddee01_persistent_connection"
+      },
       "jomoo_sq9650_seat_temp_level_0": {
         "action": "select.select_option",
         "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
@@ -96,6 +104,10 @@
       "jomoo_sq9650_mode_eco": {
         "action": "button.press",
         "entity": "button.jomoo_sq9650_aabbccddee01_apply_eco"
+      },
+      "jomoo_sq9650_refresh_state": {
+        "action": "button.press",
+        "entity": "button.jomoo_sq9650_aabbccddee01_refresh_state"
       },
       "jomoo_zs800j_light_sensor_on": {
         "action": "switch.turn_on",
@@ -192,6 +204,14 @@
       "jomoo_zs800j_bluetooth_release_off": {
         "action": "switch.turn_off",
         "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release"
+      },
+      "jomoo_zs800j_persistent_connection_on": {
+        "action": "switch.turn_on",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_persistent_connection"
+      },
+      "jomoo_zs800j_persistent_connection_off": {
+        "action": "switch.turn_off",
+        "entity": "switch.jomoo_zs800j_aabbccddee02_persistent_connection"
       },
       "jomoo_zs800j_seat_temp_level_0": {
         "action": "select.select_option",
@@ -335,6 +355,10 @@
       "jomoo_zs800j_mode_eco": {
         "action": "button.press",
         "entity": "button.jomoo_zs800j_aabbccddee02_apply_eco"
+      },
+      "jomoo_zs800j_refresh_state": {
+        "action": "button.press",
+        "entity": "button.jomoo_zs800j_aabbccddee02_refresh_state"
       },
       "jomoo_mode_default": {
         "action": "button.press",

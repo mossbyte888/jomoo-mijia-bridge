@@ -48,6 +48,10 @@
               "name": "释放蓝牙给小程序"
             },
             {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_persistent_connection",
+              "name": "保持蓝牙连接"
+            },
+            {
               "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
               "name": "座温"
             },
@@ -117,6 +121,10 @@
             {
               "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release",
               "name": "释放蓝牙给小程序"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_persistent_connection",
+              "name": "保持蓝牙连接"
             },
             {
               "entity": "select.jomoo_zs800j_aabbccddee02_seat_temp_level",
@@ -572,6 +580,63 @@
               ]
             }
           }
+        }
+      ]
+    },
+    {
+      "title": "蓝牙连接设置",
+      "path": "bluetooth-settings",
+      "icon": "mdi:bluetooth-settings",
+      "cards": [
+        {
+          "type": "markdown",
+          "content": "## 蓝牙连接方式\n每台设备独立设置，修改后自动保存。\n\n**保持蓝牙连接关闭**：指令、模式或手动读取时连接，完成后断开；页面显示最后一次读回。\n\n**保持蓝牙连接开启**：持续连接并自动更新状态。\n\n手机占用时 HA 无法连接；释放蓝牙开关开启时两种方式都暂停控制。"
+        },
+        {
+          "type": "entities",
+          "title": "SQ9650 · sq9650",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_persistent_connection",
+              "name": "保持蓝牙连接"
+            },
+            {
+              "entity": "sensor.jomoo_sq9650_aabbccddee01_bluetooth_connection",
+              "name": "连接状态"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_refresh_state",
+              "name": "读取一次最新状态"
+            },
+            {
+              "entity": "switch.jomoo_sq9650_aabbccddee01_bluetooth_release",
+              "name": "释放蓝牙给小程序"
+            }
+          ]
+        },
+        {
+          "type": "entities",
+          "title": "ZS800J · zs800j",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_persistent_connection",
+              "name": "保持蓝牙连接"
+            },
+            {
+              "entity": "sensor.jomoo_zs800j_aabbccddee02_bluetooth_connection",
+              "name": "连接状态"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_refresh_state",
+              "name": "读取一次最新状态"
+            },
+            {
+              "entity": "switch.jomoo_zs800j_aabbccddee02_bluetooth_release",
+              "name": "释放蓝牙给小程序"
+            }
+          ]
         }
       ]
     }
