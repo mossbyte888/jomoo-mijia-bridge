@@ -1,4 +1,4 @@
-"""Home Assistant adapter with persistent, independently released BLE links."""
+"""Configurable persistent or on-demand BLE, with scoped mode transactions."""
 import asyncio
 from contextlib import asynccontextmanager
 from datetime import timedelta
@@ -14,6 +14,7 @@ from .transport import ToiletClient, CommandError, SettingNotApplied
 from .operations import working_label
 from .scheduling import OperationQueue
 from .presets import PresetStore
+from homeassistant.util import dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SWITCH, Platform.SELECT, Platform.BUTTON, Platform.SENSOR]
@@ -31,14 +32,43 @@ class JomooCoordinator(DataUpdateCoordinator):
         self.client = ToiletClient(self.model, self.address, self.connection)
         self.queue = OperationQueue()
         self.released = bool(entry.options.get("bluetooth_released", False))
+        self.persistent = bool(entry.options.get("persistent_connection", True))
+        self.last_read = None
+        self.last_error = None
+        self.operation_lock = asyncio.Lock()
         self.stopping = False
         self._ble_client = None
         self._device = None
         self._last_setting = None
         self._release_lock = asyncio.Lock()
-        self.control_lock = asyncio.Lock()
-        if self.released:
+        if self.released or not self.persistent:
             self.update_interval = None
+
+    @asynccontextmanager
+    async def operation(self):
+        async with self.operation_lock:
+            try:
+                yield
+            finally:
+                if not self.persistent or self.released or self.stopping:
+                    async with self.queue.slot(0):
+                        await self.disconnect()
+                    self.async_update_listeners()
+
+    async def set_persistent(self, enabled):
+        self.persistent = enabled
+        self.hass.config_entries.async_update_entry(
+            self.config_entry, options={**self.config_entry.options, "persistent_connection": enabled}
+        )
+        self.update_interval = self.normal_interval(self.data or {})
+        self.async_set_updated_data(self.data or {})
+        if not enabled:
+            async with self.operation_lock:
+                async with self.queue.slot(0):
+                    await self.disconnect()
+        elif not self.released and not self.stopping:
+            await self.async_refresh()
+        self.async_update_listeners()
 
     async def disconnect(self):
         client, self._ble_client = self._ble_client, None
@@ -79,18 +109,21 @@ class JomooCoordinator(DataUpdateCoordinator):
             raise
 
     def normal_interval(self, state):
-        if self.released or self.stopping:
+        if self.released or self.stopping or not self.persistent:
             return None
         return timedelta(seconds=5 if working_label(self.model, state) not in ("就绪", "待机") else 30)
 
     def accept_state(self, state):
+        self.last_read = dt_util.utcnow().isoformat()
+        self.last_error = None
         self.update_interval = self.normal_interval(state)
         self.async_set_updated_data(state)
 
     def connection_failed(self, exc):
-        self.update_interval = None if self.released or self.stopping else timedelta(seconds=10)
+        self.last_error = str(exc) or type(exc).__name__
+        self.update_interval = None if self.released or self.stopping or not self.persistent else timedelta(seconds=10)
         self.async_set_update_error(UpdateFailed(str(exc) or type(exc).__name__))
-        if not self.released and not self.stopping:
+        if self.persistent and not self.released and not self.stopping:
             self.hass.async_create_task(self.async_request_refresh())
 
     async def exchange(self, key=None, value=None, action=None):
@@ -129,14 +162,18 @@ class JomooCoordinator(DataUpdateCoordinator):
             self.update_interval = None
             return self.data or {}
         try:
-            state = await self.exchange()
+            async with self.operation():
+                state = await self.exchange()
+            self.last_read = dt_util.utcnow().isoformat()
+            self.last_error = None
             self.update_interval = self.normal_interval(state)
             return state
         except BluetoothReleased:
             self.update_interval = None
             return self.data or {}
         except Exception as exc:
-            self.update_interval = None if self.released or self.stopping else timedelta(seconds=10)
+            self.last_error = str(exc) or type(exc).__name__
+            self.update_interval = None if self.released or self.stopping or not self.persistent else timedelta(seconds=10)
             raise UpdateFailed(f"蓝牙状态读取失败：{str(exc) or type(exc).__name__}") from exc
 
     async def set_setting(self, key, value):
@@ -151,7 +188,7 @@ class JomooCoordinator(DataUpdateCoordinator):
         result.add_done_callback(lambda done: None if done.cancelled() else done.exception())
         self._last_setting = (key, value, result)
         try:
-            async with self.control_lock:
+            async with self.operation():
                 await self._set_setting(key, value)
         except asyncio.CancelledError:
             result.cancel()
@@ -176,7 +213,7 @@ class JomooCoordinator(DataUpdateCoordinator):
         self.accept_state(state)
 
     async def perform_action(self, action):
-        async with self.control_lock:
+        async with self.operation():
             await self._perform_action(action)
 
     async def _perform_action(self, action):
@@ -207,7 +244,7 @@ class JomooCoordinator(DataUpdateCoordinator):
                 async with self.queue.slot(0):
                     await self.disconnect()
                 self.async_set_updated_data(self.data or {})
-            else:
+            elif self.persistent:
                 self.update_interval = timedelta(seconds=10)
                 await self.async_refresh()
             self.async_update_listeners()
@@ -230,7 +267,10 @@ async def async_setup_entry(hass, entry):
     await coordinator.presets.async_load()
     entry.async_on_unload(hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, coordinator.on_stop))
     # Keep the release switch accessible even if the phone currently owns BLE.
-    await coordinator.async_refresh()
+    if coordinator.persistent:
+        await coordinator.async_refresh()
+    else:
+        coordinator.async_set_updated_data({})
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
