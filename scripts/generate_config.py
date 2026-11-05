@@ -15,6 +15,7 @@ sys.modules[package.__name__] = package
 core = importlib.import_module('jomoo_generator.core')
 ops = importlib.import_module('jomoo_generator.operations')
 identity = importlib.import_module('jomoo_generator.identity')
+presets = importlib.import_module('jomoo_generator.preset_config')
 
 
 def parse_device(value):
@@ -34,7 +35,11 @@ def build(devices, gateway_event, include_actions=False):
         raise ValueError('设备别名不能重复')
     if len({d[2] for d in devices}) != len(devices):
         raise ValueError('设备蓝牙地址不能重复')
+    if not devices:
+        raise ValueError('至少配置一台设备')
     routes, rows, settings_cards, action_cards = {}, [], [], []
+    mode_cards = {mode: [] for mode in presets.MODES}
+    mode_targets = {mode: [] for mode in presets.MODES}
     for alias, model, address in devices:
         prefix = identity.entity_prefix(model, address)
         title = f'{core.PROFILES[model]["name"]} · {alias}'
@@ -53,6 +58,18 @@ def build(devices, gateway_event, include_actions=False):
                 name = f'jomoo_{alias}_{key}_{value}'
                 routes[name] = {'action': 'select.select_option', 'entity': entity, 'option': option}
                 rows.append(f'| {title} · {core.SELECT_LABELS[key]} {option} | `{name}` |')
+        for mode, label in presets.MODES.items():
+            button = f'button.{prefix}_apply_{mode}'
+            mode_targets[mode].append(button)
+            entities.append({'entity': button, 'name': f'应用{label}'})
+            name = f'jomoo_{alias}_mode_{mode}'
+            routes[name] = {'action': 'button.press', 'entity': button}
+            rows.append(f'| {title} · 应用{label} | `{name}` |')
+            editors = [{'entity': f'select.{prefix}_preset_{mode}_{key}',
+                        'name': core.SWITCHES[model].get(key, core.SELECT_LABELS.get(key, key))}
+                       for key in presets.fields(model)]
+            editors.append({'entity': button, 'name': f'应用{label}（本台）'})
+            mode_cards[mode].append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': editors})
         settings_cards.append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': entities})
         actions = [{'entity': f'sensor.{prefix}_{key}', 'name': label} for key, label in
                    [('cover_open', '盖板状态'), ('ring_open', '座圈状态'), ('seated', '着座状态')]]
@@ -64,6 +81,10 @@ def build(devices, gateway_event, include_actions=False):
                 routes[name] = {'action': 'button.press', 'entity': entity}
                 rows.append(f'| {title} · 立即执行：{label} | `{name}` |')
         action_cards.append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': actions})
+    for mode, label in presets.MODES.items():
+        name = f'jomoo_mode_{mode}'
+        routes[name] = {'action': 'button.press', 'entity': mode_targets[mode]}
+        rows.insert(0 if mode == 'default' else 1, f'| 全部已配置马桶 · 应用{label} | `{name}` |')
     automation = {
         'id': 'jomoo_virtual_event_router', 'alias': '九牧智联桥：米家虚拟事件',
         'description': '只接收事件表中的名称；忽略恢复的历史状态与过期事件。',
@@ -85,7 +106,15 @@ def build(devices, gateway_event, include_actions=False):
         {'title': '操作', 'path': 'actions', 'icon': 'mdi:gesture-tap', 'cards': [
             {'type': 'markdown', 'content': '操作按钮会立即执行机械动作。请先确认设备空闲；超时后查看现场，不要连续重试。'}, *action_cards]},
     ]}
+    for mode, label in presets.MODES.items():
+        dashboard['views'].append({'title': f'{label}配置', 'path': f'preset-{mode}', 'icon': 'mdi:tune', 'cards': [
+            {'type': 'markdown', 'content': f'## {label}配置\n修改自动保存，**不会立即控制马桶**。点击应用或运行米家模式事件才生效。“保持现状”不主动修改该项；设备联动仍然有效。默认模式初始全部保持现状；省电模式初始将温度设为常温并关闭 ZS800J 四季温感。请先编辑自己的目标。'},
+            *mode_cards[mode],
+            {'type': 'button', 'name': f'全部应用{label}', 'icon': 'mdi:play-circle-outline',
+             'tap_action': {'action': 'perform-action', 'perform_action': 'button.press', 'target': {'entity_id': mode_targets[mode]}}},
+        ]})
     table = '# 米家事件名称\n\n手机米家「产生虚拟事件」中直接填写下表名称，不加引号或方括号。\n\n'
+    table += '模式使用方法见 [自定义模式教程](../docs/自定义模式.md)。`jomoo_mode_default` 应用全部设备默认模式，`jomoo_mode_eco` 应用全部设备省电模式；单台事件跟随生成时的别名。\n\n'
     table += '“释放蓝牙”开启后，HA 暂停控制；关闭后重新连接。\n\n'
     table += '| 操作 | 事件名称 |\n| --- | --- |\n' + '\n'.join(rows) + '\n'
     return automation, dashboard, table
