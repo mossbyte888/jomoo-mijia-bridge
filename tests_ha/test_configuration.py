@@ -46,7 +46,7 @@ class ConfigurationChecks(unittest.IsolatedAsyncioTestCase):
     async def test_same_model_entities_have_separate_ids(self):
         def coordinator(address):
             return types.SimpleNamespace(model='sq9650',address=address,config_entry=types.SimpleNamespace(title='测试'),
-                                         released=False,last_update_success=True,data={'night_light':False})
+                                         released=False,persistent=True,stopping=False,last_update_success=True,data={'night_light':False})
         a=JomooSwitch(coordinator('AA:BB:CC:DD:EE:01'),'night_light','夜灯')
         b=JomooSwitch(coordinator('AA:BB:CC:DD:EE:02'),'night_light','夜灯')
         self.assertNotEqual(a.entity_id,b.entity_id)

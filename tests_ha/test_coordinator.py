@@ -20,9 +20,11 @@ class CoordinatorChecks(unittest.IsolatedAsyncioTestCase):
         c = object.__new__(JomooCoordinator)
         c.model, c.address = 'sq9650', 'test'
         c.released = c.stopping = False
+        c.persistent = True
+        c.last_read = c.last_error = None
         c._ble_client = c._device = c._last_setting = None
         c._release_lock = asyncio.Lock()
-        c.control_lock = asyncio.Lock()
+        c.operation_lock = asyncio.Lock()
         c.queue = OperationQueue()
         c.data = {'work_state': 0, 'night_light': False}
         c.async_set_updated_data = Mock()

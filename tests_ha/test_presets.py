@@ -15,7 +15,7 @@ from jomoo_local.presets import PresetStore
 from jomoo_local.select import PresetSelect
 from jomoo_local.presets import async_apply
 from jomoo_local.preset_config import defaults, KEEP
-from jomoo_local import BluetoothReleased
+from jomoo_local import BluetoothReleased, JomooCoordinator
 from homeassistant.core import HomeAssistant, Context
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.script import Script, async_validate_actions_config
@@ -117,7 +117,7 @@ class ApplyChecks(unittest.IsolatedAsyncioTestCase):
                  "work_state": 1 if model == "zs800j" else 0, "seated": False, "bubble_running": False,
                  "auto_running": False, "flush_running": False, "unblock_running": False, "temperature_fault": False}
         c = SimpleNamespace(model=model, presets=SimpleNamespace(data=defaults(model)), data=state,
-                            control_lock=asyncio.Lock(), released=False, stopping=False, connection_failed=Mock())
+                            operation_lock=asyncio.Lock(), persistent=True, released=False, stopping=False, connection_failed=Mock())
         async def exchange():
             if c.released or c.stopping:
                 raise BluetoothReleased("已释放蓝牙")
@@ -128,6 +128,10 @@ class ApplyChecks(unittest.IsolatedAsyncioTestCase):
                 raise BluetoothReleased("已释放蓝牙")
             c.data[key] = value
             if key == "prewetting": c.data["auto_bubble"] = value
+        c.operation = JomooCoordinator.operation.__get__(c)
+        c.queue = __import__("jomoo_local.scheduling", fromlist=["OperationQueue"]).OperationQueue()
+        c.disconnect = AsyncMock()
+        c.async_update_listeners = Mock()
         c.exchange = AsyncMock(side_effect=exchange)
         c.accept_state = Mock(side_effect=accept)
         c._set_setting = AsyncMock(side_effect=write)
@@ -230,3 +234,23 @@ class ApplyChecks(unittest.IsolatedAsyncioTestCase):
             await async_apply(c, "eco")
         c.connection_failed.assert_called_once()
         c._set_setting.assert_not_awaited()
+
+    async def test_on_demand_mode_disconnects_once_after_whole_preset(self):
+        c = self.coordinator()
+        c.persistent = False
+        original = c._set_setting.side_effect
+        async def write(key, value):
+            c.disconnect.assert_not_awaited()
+            await original(key, value)
+        c._set_setting.side_effect = write
+        await async_apply(c, 'eco')
+        self.assertGreater(c._set_setting.await_count, 1)
+        c.disconnect.assert_awaited_once()
+
+    async def test_on_demand_failed_preset_disconnects(self):
+        c = self.coordinator()
+        c.persistent = False
+        c._set_setting = AsyncMock(side_effect=HomeAssistantError('failed'))
+        with self.assertRaises(HomeAssistantError):
+            await async_apply(c, 'eco')
+        c.disconnect.assert_awaited_once()
