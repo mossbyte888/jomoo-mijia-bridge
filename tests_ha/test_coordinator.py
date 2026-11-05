@@ -22,6 +22,7 @@ class CoordinatorChecks(unittest.IsolatedAsyncioTestCase):
         c.released = c.stopping = False
         c._ble_client = c._device = c._last_setting = None
         c._release_lock = asyncio.Lock()
+        c.control_lock = asyncio.Lock()
         c.queue = OperationQueue()
         c.data = {'work_state': 0, 'night_light': False}
         c.async_set_updated_data = Mock()
