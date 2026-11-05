@@ -89,7 +89,7 @@ async def async_apply(coordinator, mode):
     if mode not in MODES:
         raise HomeAssistantError("不支持的模式")
     values = deepcopy(coordinator.presets.data[mode])
-    async with coordinator.control_lock:
+    async with coordinator.operation():
         try:
             state = await coordinator.exchange()
             coordinator.accept_state(state)

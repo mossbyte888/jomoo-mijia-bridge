@@ -19,4 +19,13 @@ class JomooEntity(CoordinatorEntity):
 
     @property
     def available(self):
+        if not self.coordinator.persistent:
+            return not self.coordinator.released and not self.coordinator.stopping
         return not self.coordinator.released and super().available and self.key in (self.coordinator.data or {})
+
+    @property
+    def extra_state_attributes(self):
+        return {"连接策略": "长连接" if self.coordinator.persistent else "按需连接",
+                "上次读取时间": self.coordinator.last_read,
+                "上次错误": self.coordinator.last_error,
+                "状态说明": "最近一次设备读回；按需连接时不自动更新"}
