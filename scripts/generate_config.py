@@ -38,13 +38,14 @@ def build(devices, gateway_event, include_actions=False):
     if not devices:
         raise ValueError('至少配置一台设备')
     routes, rows, settings_cards, action_cards = {}, [], [], []
+    connection_cards, optional_rows = [], []
     mode_cards = {mode: [] for mode in presets.MODES}
     mode_targets = {mode: [] for mode in presets.MODES}
     for alias, model, address in devices:
         prefix = identity.entity_prefix(model, address)
         title = f'{core.PROFILES[model]["name"]} · {alias}'
         entities = [{'entity': f'sensor.{prefix}_work_state', 'name': '工作状态'}]
-        for key, label in {**core.SWITCHES[model], 'bluetooth_release': '释放蓝牙给小程序'}.items():
+        for key, label in {**core.SWITCHES[model], 'bluetooth_release': '释放蓝牙给小程序', 'persistent_connection': '保持蓝牙连接'}.items():
             entity = f'switch.{prefix}_{key}'
             entities.append({'entity': entity, 'name': label})
             for suffix, action, word in [('on', 'switch.turn_on', '开启'), ('off', 'switch.turn_off', '关闭')]:
@@ -70,14 +71,26 @@ def build(devices, gateway_event, include_actions=False):
                        for key in presets.fields(model)]
             editors.append({'entity': button, 'name': f'应用{label}（本台）'})
             mode_cards[mode].append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': editors})
+        refresh = f'button.{prefix}_refresh_state'
+        name = f'jomoo_{alias}_refresh_state'
+        routes[name] = {'action': 'button.press', 'entity': refresh}
+        rows.append(f'| {title} · 读取一次最新状态 | `{name}` |')
+        connection_cards.append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': [
+            {'entity': f'switch.{prefix}_persistent_connection', 'name': '保持蓝牙连接'},
+            {'entity': f'sensor.{prefix}_bluetooth_connection', 'name': '连接状态'},
+            {'entity': refresh, 'name': '读取一次最新状态'},
+            {'entity': f'switch.{prefix}_bluetooth_release', 'name': '释放蓝牙给小程序'},
+        ]})
         settings_cards.append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': entities})
         actions = [{'entity': f'sensor.{prefix}_{key}', 'name': label} for key, label in
                    [('cover_open', '盖板状态'), ('ring_open', '座圈状态'), ('seated', '着座状态')]]
         for key, label in ops.ACTIONS[model].items():
             entity = f'button.{prefix}_{key}'
             actions.append({'entity': entity, 'name': label})
+            name = f'jomoo_{alias}_{key}_press'
+            if not include_actions:
+                optional_rows.append(f'| {title} · 立即执行：{label} | `{name}` |')
             if include_actions:
-                name = f'jomoo_{alias}_{key}_press'
                 routes[name] = {'action': 'button.press', 'entity': entity}
                 rows.append(f'| {title} · 立即执行：{label} | `{name}` |')
         action_cards.append({'type': 'entities', 'title': title, 'show_header_toggle': False, 'entities': actions})
@@ -113,10 +126,16 @@ def build(devices, gateway_event, include_actions=False):
             {'type': 'button', 'name': f'全部应用{label}', 'icon': 'mdi:play-circle-outline',
              'tap_action': {'action': 'perform-action', 'perform_action': 'button.press', 'target': {'entity_id': mode_targets[mode]}}},
         ]})
+    dashboard['views'].append({'title': '蓝牙连接设置', 'path': 'bluetooth-settings', 'icon': 'mdi:bluetooth-settings', 'cards': [
+        {'type': 'markdown', 'content': '## 蓝牙连接方式\n每台设备独立设置，修改后自动保存。\n\n**保持蓝牙连接关闭**：指令、模式或手动读取时连接，完成后断开；页面显示最后一次读回。\n\n**保持蓝牙连接开启**：持续连接并自动更新状态。\n\n手机占用时 HA 无法连接；释放蓝牙开关开启时两种方式都暂停控制。'}, *connection_cards]})
     table = '# 米家事件名称\n\n手机米家「产生虚拟事件」中直接填写下表名称，不加引号或方括号。\n\n'
     table += '模式使用方法见 [自定义模式教程](../docs/自定义模式.md)。`jomoo_mode_default` 应用全部设备默认模式，`jomoo_mode_eco` 应用全部设备省电模式；单台事件跟随生成时的别名。\n\n'
     table += '“释放蓝牙”开启后，HA 暂停控制；关闭后重新连接。\n\n'
     table += '| 操作 | 事件名称 |\n| --- | --- |\n' + '\n'.join(rows) + '\n'
+    if optional_rows:
+        table += '\n## 动作指令（需启用）\n\n下面列出开关盖、翻圈、冲水等按钮的事件名称。**默认生成的自动化没有启用这些路由**；请在原生成命令中添加 `--include-actions`，重新生成并替换 HA 路由后再使用。仅复制名称不会自动启用动作。\n\n'
+        table += '| 立即执行的动作 | 事件名称 |\n| --- | --- |\n' + '\n'.join(optional_rows) + '\n'
+        table += '\n这些指令会产生实际动作。路由映射与软件测试不等于逐项实机验收；超时后先查看现场，不要连续重复触发。\n'
     return automation, dashboard, table
 
 
