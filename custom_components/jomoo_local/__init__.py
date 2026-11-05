@@ -13,6 +13,7 @@ from .core import PROFILES
 from .transport import ToiletClient, CommandError, SettingNotApplied
 from .operations import working_label
 from .scheduling import OperationQueue
+from .presets import PresetStore
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SWITCH, Platform.SELECT, Platform.BUTTON, Platform.SENSOR]
@@ -35,6 +36,7 @@ class JomooCoordinator(DataUpdateCoordinator):
         self._device = None
         self._last_setting = None
         self._release_lock = asyncio.Lock()
+        self.control_lock = asyncio.Lock()
         if self.released:
             self.update_interval = None
 
@@ -149,7 +151,8 @@ class JomooCoordinator(DataUpdateCoordinator):
         result.add_done_callback(lambda done: None if done.cancelled() else done.exception())
         self._last_setting = (key, value, result)
         try:
-            await self._set_setting(key, value)
+            async with self.control_lock:
+                await self._set_setting(key, value)
         except asyncio.CancelledError:
             result.cancel()
             raise
@@ -173,6 +176,10 @@ class JomooCoordinator(DataUpdateCoordinator):
         self.accept_state(state)
 
     async def perform_action(self, action):
+        async with self.control_lock:
+            await self._perform_action(action)
+
+    async def _perform_action(self, action):
         self._last_setting = None
         try:
             state = await self.exchange(action=action)
@@ -219,6 +226,8 @@ class JomooCoordinator(DataUpdateCoordinator):
 
 async def async_setup_entry(hass, entry):
     coordinator = JomooCoordinator(hass, entry)
+    coordinator.presets = PresetStore(hass, entry)
+    await coordinator.presets.async_load()
     entry.async_on_unload(hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, coordinator.on_stop))
     # Keep the release switch accessible even if the phone currently owns BLE.
     await coordinator.async_refresh()
