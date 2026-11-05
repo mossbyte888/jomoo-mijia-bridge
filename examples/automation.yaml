@@ -89,6 +89,14 @@
         "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
         "option": "高温"
       },
+      "jomoo_sq9650_mode_default": {
+        "action": "button.press",
+        "entity": "button.jomoo_sq9650_aabbccddee01_apply_default"
+      },
+      "jomoo_sq9650_mode_eco": {
+        "action": "button.press",
+        "entity": "button.jomoo_sq9650_aabbccddee01_apply_eco"
+      },
       "jomoo_zs800j_light_sensor_on": {
         "action": "switch.turn_on",
         "entity": "switch.jomoo_zs800j_aabbccddee02_light_sensor"
@@ -319,6 +327,28 @@
         "action": "select.select_option",
         "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
         "option": "标准档"
+      },
+      "jomoo_zs800j_mode_default": {
+        "action": "button.press",
+        "entity": "button.jomoo_zs800j_aabbccddee02_apply_default"
+      },
+      "jomoo_zs800j_mode_eco": {
+        "action": "button.press",
+        "entity": "button.jomoo_zs800j_aabbccddee02_apply_eco"
+      },
+      "jomoo_mode_default": {
+        "action": "button.press",
+        "entity": [
+          "button.jomoo_sq9650_aabbccddee01_apply_default",
+          "button.jomoo_zs800j_aabbccddee02_apply_default"
+        ]
+      },
+      "jomoo_mode_eco": {
+        "action": "button.press",
+        "entity": [
+          "button.jomoo_sq9650_aabbccddee01_apply_eco",
+          "button.jomoo_zs800j_aabbccddee02_apply_eco"
+        ]
       }
     },
     "event_name": "{{ trigger.to_state.attributes.get('事件名称', '') if trigger.to_state is not none else '' }}",

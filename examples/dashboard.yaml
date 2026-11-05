@@ -50,6 +50,14 @@
             {
               "entity": "select.jomoo_sq9650_aabbccddee01_seat_temp_level",
               "name": "座温"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_apply_default",
+              "name": "应用默认模式"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_apply_eco",
+              "name": "应用省电模式"
             }
           ]
         },
@@ -133,6 +141,14 @@
             {
               "entity": "select.jomoo_zs800j_aabbccddee02_foam_time",
               "name": "刷圈发泡"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_apply_default",
+              "name": "应用默认模式"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_apply_eco",
+              "name": "应用省电模式"
             }
           ]
         }
@@ -260,6 +276,302 @@
               "name": "停止清洁／维护"
             }
           ]
+        }
+      ]
+    },
+    {
+      "title": "默认模式配置",
+      "path": "preset-default",
+      "icon": "mdi:tune",
+      "cards": [
+        {
+          "type": "markdown",
+          "content": "## 默认模式配置\n修改自动保存，**不会立即控制马桶**。点击应用或运行米家模式事件才生效。“保持现状”不主动修改该项；设备联动仍然有效。默认模式初始全部保持现状；省电模式初始将温度设为常温并关闭 ZS800J 四季温感。请先编辑自己的目标。"
+        },
+        {
+          "type": "entities",
+          "title": "SQ9650 · sq9650",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_night_light",
+              "name": "夜灯"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_light_sensor",
+              "name": "光感夜灯"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_default_seat_temp_level",
+              "name": "座温"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_apply_default",
+              "name": "应用默认模式（本台）"
+            }
+          ]
+        },
+        {
+          "type": "entities",
+          "title": "ZS800J · zs800j",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_light_sensor",
+              "name": "智能夜灯"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_atmosphere_light",
+              "name": "氛围灯"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_cover",
+              "name": "自动翻盖"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_small_flush",
+              "name": "自动小冲"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_uv_water",
+              "name": "水路UV杀菌"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_auto_temp",
+              "name": "四季温感"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_seat_temp_level",
+              "name": "座温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_water_temp_level",
+              "name": "水温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_air_temp",
+              "name": "风温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_wind_speed",
+              "name": "风速"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_cover_sensitivity",
+              "name": "翻盖模式"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_default_foam_time",
+              "name": "刷圈发泡"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_apply_default",
+              "name": "应用默认模式（本台）"
+            }
+          ]
+        },
+        {
+          "type": "button",
+          "name": "全部应用默认模式",
+          "icon": "mdi:play-circle-outline",
+          "tap_action": {
+            "action": "perform-action",
+            "perform_action": "button.press",
+            "target": {
+              "entity_id": [
+                "button.jomoo_sq9650_aabbccddee01_apply_default",
+                "button.jomoo_zs800j_aabbccddee02_apply_default"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "省电模式配置",
+      "path": "preset-eco",
+      "icon": "mdi:tune",
+      "cards": [
+        {
+          "type": "markdown",
+          "content": "## 省电模式配置\n修改自动保存，**不会立即控制马桶**。点击应用或运行米家模式事件才生效。“保持现状”不主动修改该项；设备联动仍然有效。默认模式初始全部保持现状；省电模式初始将温度设为常温并关闭 ZS800J 四季温感。请先编辑自己的目标。"
+        },
+        {
+          "type": "entities",
+          "title": "SQ9650 · sq9650",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_night_light",
+              "name": "夜灯"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_light_sensor",
+              "name": "光感夜灯"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "select.jomoo_sq9650_aabbccddee01_preset_eco_seat_temp_level",
+              "name": "座温"
+            },
+            {
+              "entity": "button.jomoo_sq9650_aabbccddee01_apply_eco",
+              "name": "应用省电模式（本台）"
+            }
+          ]
+        },
+        {
+          "type": "entities",
+          "title": "ZS800J · zs800j",
+          "show_header_toggle": false,
+          "entities": [
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_light_sensor",
+              "name": "智能夜灯"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_atmosphere_light",
+              "name": "氛围灯"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_flush",
+              "name": "自动冲刷"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_close_flush",
+              "name": "关盖冲厕"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_cover",
+              "name": "自动翻盖"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_small_flush",
+              "name": "自动小冲"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_foot_sensor",
+              "name": "脚感控制"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_uv_water",
+              "name": "水路UV杀菌"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_prewetting",
+              "name": "预湿润"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_bubble",
+              "name": "落座发泡"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_auto_temp",
+              "name": "四季温感"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_seat_temp_level",
+              "name": "座温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_water_temp_level",
+              "name": "水温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_air_temp",
+              "name": "风温"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_wind_speed",
+              "name": "风速"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_cover_sensitivity",
+              "name": "翻盖模式"
+            },
+            {
+              "entity": "select.jomoo_zs800j_aabbccddee02_preset_eco_foam_time",
+              "name": "刷圈发泡"
+            },
+            {
+              "entity": "button.jomoo_zs800j_aabbccddee02_apply_eco",
+              "name": "应用省电模式（本台）"
+            }
+          ]
+        },
+        {
+          "type": "button",
+          "name": "全部应用省电模式",
+          "icon": "mdi:play-circle-outline",
+          "tap_action": {
+            "action": "perform-action",
+            "perform_action": "button.press",
+            "target": {
+              "entity_id": [
+                "button.jomoo_sq9650_aabbccddee01_apply_eco",
+                "button.jomoo_zs800j_aabbccddee02_apply_eco"
+              ]
+            }
+          }
         }
       ]
     }
