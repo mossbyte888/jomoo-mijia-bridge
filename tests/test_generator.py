@@ -25,7 +25,7 @@ class GeneratorTests(unittest.TestCase):
         auto,_,_=generator.build([('zs','zs800j','AA:BB:CC:DD:EE:01')],'event.example_gateway')
         buttons = [r['entity'] for r in auto['variables']['routes'].values() if r['action'] == 'button.press']
         self.assertTrue(buttons)
-        self.assertTrue(all(e.endswith(('_apply_default', '_apply_eco')) for item in buttons for e in (item if isinstance(item, list) else [item])))
+        self.assertTrue(all(e.endswith(('_apply_default', '_apply_eco', '_refresh_state')) for item in buttons for e in (item if isinstance(item, list) else [item])))
         self.assertEqual(auto['variables']['routes']['jomoo_zs_seat_temp_level_2']['option'],'偏低')
 
     def test_invalid_and_duplicate_devices_rejected(self):
@@ -42,3 +42,17 @@ class GeneratorTests(unittest.TestCase):
         self.assertEqual(a,json.loads((ROOT/'examples/automation.yaml').read_text()))
         self.assertEqual(d,json.loads((ROOT/'examples/dashboard.yaml').read_text()))
         self.assertEqual(t,(ROOT/'examples/米家事件名称.md').read_text())
+
+    def test_action_table_is_complete_but_routes_remain_opt_in(self):
+        devices=[('sq9650','sq9650','AA:BB:CC:DD:EE:01'),('zs800j','zs800j','AA:BB:CC:DD:EE:02')]
+        auto,_,table=generator.build(devices,'event.example_gateway')
+        enabled,_,_=generator.build(devices,'event.example_gateway',True)
+        for alias,model,_ in devices:
+            for key in ops.ACTIONS[model]:
+                name=f'jomoo_{alias}_{key}_press'
+                self.assertIn(name,table)
+                self.assertNotIn(name,auto['variables']['routes'])
+                self.assertIn(name,enabled['variables']['routes'])
+        self.assertIn('--include-actions',table)
+        self.assertEqual(len(auto['variables']['routes']),82)
+        self.assertEqual(len(enabled['variables']['routes']),101)
