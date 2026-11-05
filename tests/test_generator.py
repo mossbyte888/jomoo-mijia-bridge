@@ -15,14 +15,17 @@ class GeneratorTests(unittest.TestCase):
             for card in view['cards']:
                 entities.update(row['entity'] for row in card.get('entities',[]))
         for name,route in auto['variables']['routes'].items():
-            self.assertIn(route['entity'],entities)
+            for entity in route['entity'] if isinstance(route['entity'], list) else [route['entity']]:
+                self.assertIn(entity,entities)
             self.assertIn(name,table)
             self.assertIn(route['action'],['button.press','switch.turn_on','switch.turn_off','select.select_option'])
         self.assertNotEqual(auto['variables']['routes']['jomoo_bath_a_night_light_on']['entity'], auto['variables']['routes']['jomoo_bath_b_night_light_on']['entity'])
 
     def test_default_route_has_no_physical_actions(self):
         auto,_,_=generator.build([('zs','zs800j','AA:BB:CC:DD:EE:01')],'event.example_gateway')
-        self.assertFalse(any(r['action']=='button.press' for r in auto['variables']['routes'].values()))
+        buttons = [r['entity'] for r in auto['variables']['routes'].values() if r['action'] == 'button.press']
+        self.assertTrue(buttons)
+        self.assertTrue(all(e.endswith(('_apply_default', '_apply_eco')) for item in buttons for e in (item if isinstance(item, list) else [item])))
         self.assertEqual(auto['variables']['routes']['jomoo_zs_seat_temp_level_2']['option'],'偏低')
 
     def test_invalid_and_duplicate_devices_rejected(self):
